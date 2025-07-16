@@ -1,11 +1,21 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Navigation } from "@/components/Navigation";
+import { HeroSection } from "@/components/HeroSection";
+import { Dashboard } from "@/components/Dashboard";
 
 const Index = () => {
+  const [currentView, setCurrentView] = useState<"home" | "dashboard">("home");
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-background">
+      <Navigation currentView={currentView} onViewChange={setCurrentView} />
+      
+      <div className="pt-20">
+        {currentView === "home" ? (
+          <HeroSection />
+        ) : (
+          <Dashboard />
+        )}
       </div>
     </div>
   );
