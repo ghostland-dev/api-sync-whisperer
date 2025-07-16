@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Home, Zap, Settings, Activity, User } from "lucide-react";
+import { Home, Zap, Settings, Activity, User, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface NavigationProps {
   currentView: "home" | "dashboard";
@@ -8,6 +10,17 @@ interface NavigationProps {
 }
 
 export function Navigation({ currentView, onViewChange }: NavigationProps) {
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAuthAction = () => {
+    if (user) {
+      signOut();
+    } else {
+      navigate('/auth');
+    }
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border/50">
       <div className="max-w-7xl mx-auto px-6 py-4">
@@ -53,13 +66,27 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
 
           {/* User Actions */}
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm">
-              Connexion
-            </Button>
-            <Button variant="hero" size="sm">
-              <User className="w-4 h-4 mr-2" />
-              Inscription
-            </Button>
+            {user ? (
+              <>
+                <span className="text-sm text-muted-foreground hidden sm:block">
+                  {user.email}
+                </span>
+                <Button variant="outline" size="sm" onClick={handleAuthAction}>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Déconnexion
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" size="sm" onClick={handleAuthAction}>
+                  Connexion
+                </Button>
+                <Button variant="hero" size="sm" onClick={handleAuthAction}>
+                  <User className="w-4 h-4 mr-2" />
+                  Inscription
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </div>

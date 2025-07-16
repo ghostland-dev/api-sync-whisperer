@@ -14,7 +14,232 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      api_providers: {
+        Row: {
+          auth_type: string
+          base_url: string | null
+          category: string
+          created_at: string
+          description: string | null
+          documentation_url: string | null
+          icon: string | null
+          id: string
+          is_active: boolean
+          name: string
+        }
+        Insert: {
+          auth_type: string
+          base_url?: string | null
+          category: string
+          created_at?: string
+          description?: string | null
+          documentation_url?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+        }
+        Update: {
+          auth_type?: string
+          base_url?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          documentation_url?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+        }
+        Relationships: []
+      }
+      integration_logs: {
+        Row: {
+          created_at: string
+          data: Json | null
+          execution_time_ms: number | null
+          id: string
+          integration_id: string
+          message: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          data?: Json | null
+          execution_time_ms?: number | null
+          id?: string
+          integration_id: string
+          message?: string | null
+          status: string
+        }
+        Update: {
+          created_at?: string
+          data?: Json | null
+          execution_time_ms?: number | null
+          id?: string
+          integration_id?: string
+          message?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integration_logs_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "integrations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      integrations: {
+        Row: {
+          created_at: string
+          description: string | null
+          error_count: number
+          id: string
+          is_active: boolean
+          last_run_at: string | null
+          name: string
+          run_count: number
+          source_connection_id: string
+          success_count: number
+          target_connection_id: string
+          transformation_config: Json | null
+          trigger_config: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          error_count?: number
+          id?: string
+          is_active?: boolean
+          last_run_at?: string | null
+          name: string
+          run_count?: number
+          source_connection_id: string
+          success_count?: number
+          target_connection_id: string
+          transformation_config?: Json | null
+          trigger_config: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          error_count?: number
+          id?: string
+          is_active?: boolean
+          last_run_at?: string | null
+          name?: string
+          run_count?: number
+          source_connection_id?: string
+          success_count?: number
+          target_connection_id?: string
+          transformation_config?: Json | null
+          trigger_config?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "integrations_source_connection_id_fkey"
+            columns: ["source_connection_id"]
+            isOneToOne: false
+            referencedRelation: "user_connections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "integrations_target_connection_id_fkey"
+            columns: ["target_connection_id"]
+            isOneToOne: false
+            referencedRelation: "user_connections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_connections: {
+        Row: {
+          connection_name: string
+          created_at: string
+          credentials: Json
+          error_message: string | null
+          id: string
+          is_active: boolean
+          last_tested_at: string | null
+          provider_id: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          connection_name: string
+          created_at?: string
+          credentials: Json
+          error_message?: string | null
+          id?: string
+          is_active?: boolean
+          last_tested_at?: string | null
+          provider_id: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          connection_name?: string
+          created_at?: string
+          credentials?: Json
+          error_message?: string | null
+          id?: string
+          is_active?: boolean
+          last_tested_at?: string | null
+          provider_id?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_connections_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "api_providers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

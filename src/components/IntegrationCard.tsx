@@ -10,6 +10,7 @@ interface IntegrationCardProps {
   category: string;
   status: "active" | "inactive" | "connected";
   connectionCount?: number;
+  onConnect?: () => void;
 }
 
 export function IntegrationCard({ 
@@ -18,7 +19,8 @@ export function IntegrationCard({
   icon, 
   category, 
   status,
-  connectionCount = 0
+  connectionCount = 0,
+  onConnect
 }: IntegrationCardProps) {
   const statusColor = {
     active: "bg-primary",
@@ -76,7 +78,12 @@ export function IntegrationCard({
             </Button>
           </>
         ) : (
-          <Button variant="connect" size="sm" className="flex-1 group-hover:shadow-glow-accent">
+          <Button 
+            variant="connect" 
+            size="sm" 
+            className="flex-1 group-hover:shadow-glow-accent"
+            onClick={onConnect}
+          >
             Connecter
             <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
           </Button>
